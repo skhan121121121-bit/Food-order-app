@@ -1,84 +1,74 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+let cart = [];
+let total = 0;
+
+// ✅ YOUR APPS SCRIPT WEB APP URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3qAJIuqntpcHnrIt76tUIYYA8QQCFKXGt5BTqXJ_5i4NvKHMsqoIl16PNZaU7Cjus/exec";
+
+function addToCart(name, price) {
+  cart.push({ name, price });
+  total += price;
+  document.getElementById("cartCount").innerText = cart.length;
 }
 
-header {
-  background: #ff5722;
-  color: white;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+document.getElementById("cartBtn").onclick = () => {
+  document.getElementById("cartModal").style.display = "block";
+  renderCart();
+};
+
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
 }
 
-#cartBtn {
-  background: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
+function renderCart() {
+  const list = document.getElementById("cartItems");
+  list.innerHTML = "";
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = `${item.name} - ₹${item.price}`;
+    list.appendChild(li);
+  });
+  document.getElementById("total").innerText = total;
 }
 
-#search {
-  width: 90%;
-  margin: 10px auto;
-  display: block;
-  padding: 10px;
+function placeOrder() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if (!name || !phone || !address || cart.length === 0) {
+    alert("Fill all details");
+    return;
+  }
+
+  const data = {
+    name,
+    phone,
+    address,
+    items: cart.map(i => i.name).join(", "),
+    total
+  };
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Order placed successfully");
+    cart = [];
+    total = 0;
+    document.getElementById("cartCount").innerText = 0;
+    closeCart();
+  })
+  .catch(() => alert("Order failed"));
 }
 
-.food-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  padding: 10px;
-}
-
-.food {
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.food button {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  background: #4caf50;
-  color: white;
-  border-radius: 5px;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-}
-
-.modal-box {
-  background: white;
-  width: 90%;
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.modal-box input,
-.modal-box textarea {
-  width: 100%;
-  margin: 5px 0;
-  padding: 8px;
-}
-
-.modal-box button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-}
-
-.close {
-  background: #ccc;
-}
+// 🔍 SEARCH
+document.getElementById("search").addEventListener("input", function () {
+  const value = this.value.toLowerCase();
+  document.querySelectorAll(".food").forEach(item => {
+    item.style.display = item.innerText.toLowerCase().includes(value)
+      ? "block"
+      : "none";
+  });
+});
