@@ -1,15 +1,23 @@
-// 🔥 আপনার Apps Script Web App URL
+// 🔗 আপনার Apps Script Web App URL
 const WEB_APP_URL =
- "https://script.google.com/macros/s/AKfycbyodGU8w96fA-x75fVPkcP-jUnacVbZHl9yiSsK3pZLF2S43h0oq5YsFHtX6pa6JSwCKQ/exec";
+"https://script.google.com/macros/s/AKfycbyodGU8w96fA-x75fVPkcP-jUnacVbZHl9yiSsK3pZLF2S43h0oq5YsFHtX6pa6JSwCKQ/exec";
 
 let cart = [];
 let total = 0;
 
-function addItem(name, price) {
-  cart.push(name + " ₹" + price);
+function addToCart(item, price) {
+  cart.push(item + " ₹" + price);
   total += price;
-  document.getElementById("cart").innerHTML =
-    cart.map(i => "<li>" + i + "</li>").join("");
+
+  const cartList = document.getElementById("cartList");
+  cartList.innerHTML = "";
+
+  cart.forEach(i => {
+    const li = document.createElement("li");
+    li.innerText = i;
+    cartList.appendChild(li);
+  });
+
   document.getElementById("total").innerText = total;
 }
 
@@ -31,27 +39,17 @@ function placeOrder() {
     total: total
   };
 
-  // sheet POST
   fetch(WEB_APP_URL, {
     method: "POST",
     mode: "no-cors",
     body: JSON.stringify(data)
   });
 
-  alert("Order Sent!");
+  alert("Order placed successfully!");
 
-  // WhatsApp message
-  let msg =
-    "New Order%0AName: " + name +
-    "%0APhone: " + phone +
-    "%0AAddress: " + address +
-    "%0AItems: " + cart.join(", ") +
-    "%0ATotal: ₹" + total;
-
-  window.open("https://wa.me/91" + phone + "?text=" + msg, "_blank");
-
+  // reset
   cart = [];
   total = 0;
-  document.getElementById("cart").innerHTML = "";
-  document.getElementById("total").innerText = 0;
+  document.getElementById("cartList").innerHTML = "";
+  document.getElementById("total").innerText = "0";
 }
