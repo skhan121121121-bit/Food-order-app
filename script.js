@@ -1,72 +1,57 @@
+// 🔥 আপনার Apps Script Web App URL
+const WEB_APP_URL =
+ "https://script.google.com/macros/s/AKfycbyodGU8w96fA-x75fVPkcP-jUnacVbZHl9yiSsK3pZLF2S43h0oq5YsFHtX6pa6JSwCKQ/exec";
+
 let cart = [];
 let total = 0;
 
-// 🔴 আপনার Web App URL এখানে বসাবেন
-const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
-
-function addToCart(name, price) {
-  cart.push({ name, price });
+function addItem(name, price) {
+  cart.push(name + " ₹" + price);
   total += price;
-  document.getElementById("cartCount").innerText = cart.length;
-}
-
-document.getElementById("cartBtn").onclick = () => {
-  document.getElementById("cartModal").style.display = "block";
-  renderCart();
-};
-
-function closeCart() {
-  document.getElementById("cartModal").style.display = "none";
-}
-
-function renderCart() {
-  let list = document.getElementById("cartItems");
-  list.innerHTML = "";
-  cart.forEach(item => {
-    let li = document.createElement("li");
-    li.innerText = item.name + " - ₹" + item.price;
-    list.appendChild(li);
-  });
+  document.getElementById("cart").innerHTML =
+    cart.map(i => "<li>" + i + "</li>").join("");
   document.getElementById("total").innerText = total;
 }
 
 function placeOrder() {
-  let name = document.getElementById("name").value.trim();
-  let phone = document.getElementById("phone").value.trim();
-  let address = document.getElementById("address").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("Fill all details");
+    alert("Fill all fields");
     return;
   }
 
-  let data = {
-    name,
-    phone,
-    address,
-    items: cart.map(i => i.name).join(", "),
-    total
+  const data = {
+    name: name,
+    phone: phone,
+    address: address,
+    items: cart.join(", "),
+    total: total
   };
 
-  fetch(SCRIPT_URL, {
+  // sheet POST
+  fetch(WEB_APP_URL, {
     method: "POST",
+    mode: "no-cors",
     body: JSON.stringify(data)
-  })
-  .then(res => res.text())
-  .then(() => {
-    alert("Order placed!");
-    cart = [];
-    total = 0;
-    document.getElementById("cartCount").innerText = 0;
-    closeCart();
-  })
-  .catch(() => alert("Error sending order"));
-}
-
-// SEARCH
-document.getElementById("search").addEventListener("input", function () {
-  let val = this.value.toLowerCase();
-  document.querySelectorAll(".food").forEach(f => {
-    f.style.display = f.innerText.toLowerCase().includes(val) ? "block" : "none";
   });
-});
+
+  alert("Order Sent!");
+
+  // WhatsApp message
+  let msg =
+    "New Order%0AName: " + name +
+    "%0APhone: " + phone +
+    "%0AAddress: " + address +
+    "%0AItems: " + cart.join(", ") +
+    "%0ATotal: ₹" + total;
+
+  window.open("https://wa.me/91" + phone + "?text=" + msg, "_blank");
+
+  cart = [];
+  total = 0;
+  document.getElementById("cart").innerHTML = "";
+  document.getElementById("total").innerText = 0;
+}
