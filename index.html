@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
+  <title>Food Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,18 +10,24 @@
 
 <h2>🍔 Food Order</h2>
 
-<div class="items">
-  <button onclick="addItem('Chicken Roll',60)">Chicken Roll ₹60</button>
-  <button onclick="addItem('Egg Roll',40)">Egg Roll ₹40</button>
-  <button onclick="addItem('Veg Roll',30)">Veg Roll ₹30</button>
+<div class="food">
+  <button onclick="addToCart('Chicken Roll', 60)">Chicken Roll ₹60</button>
+</div>
+
+<div class="food">
+  <button onclick="addToCart('Egg Roll', 40)">Egg Roll ₹40</button>
+</div>
+
+<div class="food">
+  <button onclick="addToCart('Veg Roll', 30)">Veg Roll ₹30</button>
 </div>
 
 <h3>🛒 Cart</h3>
-<ul id="cart"></ul>
+<ul id="cartList"></ul>
 <p>Total: ₹<span id="total">0</span></p>
 
-<input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone">
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="phone" placeholder="Phone">
 <textarea id="address" placeholder="Address"></textarea>
 
 <button onclick="placeOrder()">Place Order</button>
