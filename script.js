@@ -1,8 +1,9 @@
 let cart = [];
 let total = 0;
 
-// ✅ YOUR APPS SCRIPT WEB APP URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3qAJIuqntpcHnrIt76tUIYYA8QQCFKXGt5BTqXJ_5i4NvKHMsqoIl16PNZaU7Cjus/exec";
+// ✅ YOUR APPS SCRIPT WEB APP URL (already added)
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbyk8PPlFiKuY6afmiirEmq-CKZjtYF_6EFxV2JkAT19k8ASv-o8Y05Y6VKDNXB_EBjCZg/exec";
 
 function addToCart(name, price) {
   cart.push({ name, price });
@@ -24,7 +25,7 @@ function renderCart() {
   list.innerHTML = "";
   cart.forEach(item => {
     const li = document.createElement("li");
-    li.innerText = `${item.name} - ₹${item.price}`;
+    li.innerText = item.name + " - ₹" + item.price;
     list.appendChild(li);
   });
   document.getElementById("total").innerText = total;
@@ -41,11 +42,11 @@ function placeOrder() {
   }
 
   const data = {
-    name,
-    phone,
-    address,
+    name: name,
+    phone: phone,
+    address: address,
     items: cart.map(i => i.name).join(", "),
-    total
+    total: total
   };
 
   fetch(SCRIPT_URL, {
@@ -53,22 +54,14 @@ function placeOrder() {
     body: JSON.stringify(data)
   })
   .then(res => res.text())
-  .then(() => {
+  .then(response => {
     alert("Order placed successfully");
     cart = [];
     total = 0;
     document.getElementById("cartCount").innerText = 0;
     closeCart();
   })
-  .catch(() => alert("Order failed"));
-}
-
-// 🔍 SEARCH
-document.getElementById("search").addEventListener("input", function () {
-  const value = this.value.toLowerCase();
-  document.querySelectorAll(".food").forEach(item => {
-    item.style.display = item.innerText.toLowerCase().includes(value)
-      ? "block"
-      : "none";
+  .catch(() => {
+    alert("Order failed");
   });
-});
+}
