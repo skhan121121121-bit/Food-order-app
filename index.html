@@ -8,29 +8,49 @@
 </head>
 <body>
 
-<h2>🍔 Food Order</h2>
+<header>
+  <h2>🍔 Food Order</h2>
+  <button id="cartBtn">🛒 Cart (<span id="cartCount">0</span>)</button>
+</header>
 
-<div class="food">
-  <button onclick="addToCart('Chicken Roll', 60)">Chicken Roll ₹60</button>
+<input type="text" id="search" placeholder="Search food...">
+
+<div class="food-list" id="foodList">
+  <div class="food">
+    <h3>Chicken Roll</h3>
+    <p>₹60</p>
+    <button onclick="addToCart('Chicken Roll',60)">Add</button>
+  </div>
+
+  <div class="food">
+    <h3>Egg Roll</h3>
+    <p>₹40</p>
+    <button onclick="addToCart('Egg Roll',40)">Add</button>
+  </div>
+
+  <div class="food">
+    <h3>Veg Roll</h3>
+    <p>₹30</p>
+    <button onclick="addToCart('Veg Roll',30)">Add</button>
+  </div>
 </div>
 
-<div class="food">
-  <button onclick="addToCart('Egg Roll', 40)">Egg Roll ₹40</button>
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+  <div class="modal-box">
+    <h3>Your Cart</h3>
+
+    <ul id="cartItems"></ul>
+    <p><b>Total: ₹<span id="total">0</span></b></p>
+
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <textarea id="address" placeholder="Address"></textarea>
+
+    <button onclick="placeOrder()">Place Order</button>
+    <button class="close" onclick="closeCart()">Close</button>
+  </div>
 </div>
-
-<div class="food">
-  <button onclick="addToCart('Veg Roll', 30)">Veg Roll ₹30</button>
-</div>
-
-<h3>🛒 Cart</h3>
-<ul id="cartList"></ul>
-<p>Total: ₹<span id="total">0</span></p>
-
-<input type="text" id="name" placeholder="Name">
-<input type="text" id="phone" placeholder="Phone">
-<textarea id="address" placeholder="Address"></textarea>
-
-<button onclick="placeOrder()">Place Order</button>
 
 <script src="script.js"></script>
 </body>
