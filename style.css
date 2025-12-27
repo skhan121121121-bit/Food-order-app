@@ -1,82 +1,47 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f5f5f5;
+  padding: 15px;
+  background: #f7f7f7;
 }
 
-header {
-  background: #ff5722;
-  color: white;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#cartBtn {
-  cursor: pointer;
-  font-size: 18px;
-}
-
-#search {
-  width: 90%;
-  margin: 10px auto;
-  display: block;
-  padding: 10px;
-}
-
-.foods {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
-  gap: 10px;
-  padding: 10px;
-}
-
-.food {
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
+h2, h3 {
   text-align: center;
 }
 
-.food button {
-  background: #4caf50;
+.items button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  background: green;
   color: white;
   border: none;
-  padding: 8px;
-  width: 100%;
-  border-radius: 5px;
+  font-size: 16px;
 }
 
-.cartModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-.cartBox {
+ul li {
+  padding: 6px;
+  margin: 4px 0;
   background: white;
-  width: 90%;
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 15px;
-  border-radius: 8px;
 }
 
-.cartBox input,
-.cartBox textarea {
+input, textarea {
   width: 100%;
-  margin: 5px 0;
   padding: 8px;
+  margin: 6px 0;
 }
 
-.cartBox button {
+button {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-}
-
-.close {
-  background: #ccc;
+  padding: 12px;
+  font-size: 18px;
+  background: orange;
+  color: white;
+  border: none;
+  margin-top: 10px;
 }
