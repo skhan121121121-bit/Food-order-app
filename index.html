@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Order App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h2>🍔 Food Order</h2>
+  <div id="cartBtn">🛒 <span id="cartCount">0</span></div>
+</header>
+
+<input type="text" id="search" placeholder="Search food...">
+
+<div class="foods" id="foodList">
+  <div class="food">
+    <h3>Chicken Roll</h3>
+    <p>₹60</p>
+    <button onclick="addToCart('Chicken Roll',60)">Add</button>
+  </div>
+
+  <div class="food">
+    <h3>Egg Roll</h3>
+    <p>₹40</p>
+    <button onclick="addToCart('Egg Roll',40)">Add</button>
+  </div>
+
+  <div class="food">
+    <h3>Veg Roll</h3>
+    <p>₹30</p>
+    <button onclick="addToCart('Veg Roll',30)">Add</button>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="cartModal" id="cartModal">
+  <div class="cartBox">
+    <h3>Your Cart</h3>
+    <ul id="cartItems"></ul>
+    <p>Total: ₹<span id="total">0</span></p>
+
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <textarea id="address" placeholder="Address"></textarea>
+
+    <button onclick="placeOrder()">Place Order</button>
+    <button class="close" onclick="closeCart()">Close</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
