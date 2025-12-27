@@ -1,22 +1,22 @@
 body {
   font-family: Arial, sans-serif;
   padding: 15px;
-  background: #f7f7f7;
+  background: #f4f4f4;
 }
 
 h2, h3 {
   text-align: center;
 }
 
-.items button {
-  display: block;
+.food button {
   width: 100%;
-  margin: 8px 0;
   padding: 12px;
+  margin: 6px 0;
+  font-size: 16px;
   background: green;
   color: white;
   border: none;
-  font-size: 16px;
+  border-radius: 6px;
 }
 
 ul {
@@ -25,9 +25,9 @@ ul {
 }
 
 ul li {
-  padding: 6px;
+  background: #fff;
   margin: 4px 0;
-  background: white;
+  padding: 6px;
 }
 
 input, textarea {
@@ -39,9 +39,9 @@ input, textarea {
 button {
   width: 100%;
   padding: 12px;
-  font-size: 18px;
   background: orange;
   color: white;
+  font-size: 18px;
   border: none;
-  margin-top: 10px;
+  margin-top: 8px;
 }
