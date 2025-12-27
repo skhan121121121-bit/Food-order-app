@@ -1,55 +1,84 @@
-// 🔗 আপনার Apps Script Web App URL
-const WEB_APP_URL =
-"https://script.google.com/macros/s/AKfycbyodGU8w96fA-x75fVPkcP-jUnacVbZHl9yiSsK3pZLF2S43h0oq5YsFHtX6pa6JSwCKQ/exec";
-
-let cart = [];
-let total = 0;
-
-function addToCart(item, price) {
-  cart.push(item + " ₹" + price);
-  total += price;
-
-  const cartList = document.getElementById("cartList");
-  cartList.innerHTML = "";
-
-  cart.forEach(i => {
-    const li = document.createElement("li");
-    li.innerText = i;
-    cartList.appendChild(li);
-  });
-
-  document.getElementById("total").innerText = total;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
 }
 
-function placeOrder() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const address = document.getElementById("address").value.trim();
+header {
+  background: #ff5722;
+  color: white;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  if (!name || !phone || !address || cart.length === 0) {
-    alert("Fill all fields");
-    return;
-  }
+#cartBtn {
+  background: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
 
-  const data = {
-    name: name,
-    phone: phone,
-    address: address,
-    items: cart.join(", "),
-    total: total
-  };
+#search {
+  width: 90%;
+  margin: 10px auto;
+  display: block;
+  padding: 10px;
+}
 
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-  });
+.food-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
 
-  alert("Order placed successfully!");
+.food {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
 
-  // reset
-  cart = [];
-  total = 0;
-  document.getElementById("cartList").innerHTML = "";
-  document.getElementById("total").innerText = "0";
+.food button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-box {
+  background: white;
+  width: 90%;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.modal-box input,
+.modal-box textarea {
+  width: 100%;
+  margin: 5px 0;
+  padding: 8px;
+}
+
+.modal-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.close {
+  background: #ccc;
 }
