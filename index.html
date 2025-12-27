@@ -13,9 +13,7 @@
   <button id="cartBtn">🛒 Cart (<span id="cartCount">0</span>)</button>
 </header>
 
-<input type="text" id="search" placeholder="Search food...">
-
-<div class="food-list" id="foodList">
+<div class="foods">
   <div class="food">
     <h3>Chicken Roll</h3>
     <p>₹60</p>
@@ -37,18 +35,18 @@
 
 <!-- CART MODAL -->
 <div class="modal" id="cartModal">
-  <div class="modal-box">
+  <div class="box">
     <h3>Your Cart</h3>
 
     <ul id="cartItems"></ul>
-    <p><b>Total: ₹<span id="total">0</span></b></p>
+    <p><b>Total ₹<span id="total">0</span></b></p>
 
     <input id="name" placeholder="Name">
     <input id="phone" placeholder="Phone">
     <textarea id="address" placeholder="Address"></textarea>
 
     <button onclick="placeOrder()">Place Order</button>
-    <button class="close" onclick="closeCart()">Close</button>
+    <button onclick="closeCart()">Close</button>
   </div>
 </div>
 
