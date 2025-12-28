@@ -2,8 +2,7 @@ let cart = [];
 let total = 0;
 
 // ✅ YOUR APPS SCRIPT WEB APP URL (already added)
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyk8PPlFiKuY6afmiirEmq-CKZjtYF_6EFxV2JkAT19k8ASv-o8Y05Y6VKDNXB_EBjCZg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_Bl8XMYWxQa4aQlgROmmcemmmqL5nm9WrujwKhlIWjpZEAMvKYKS6KEFN52--KA3E/exec";
 
 function addToCart(name, price) {
   cart.push({ name, price });
