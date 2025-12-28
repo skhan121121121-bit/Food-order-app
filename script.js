@@ -1,66 +1,88 @@
+// ===============================
+// CONFIG
+// ===============================
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzHmdNzSNs6q5Cwm17Wv7MqFGcMARk5UfAai3dYzZauUK8uqpO9XRU-z9nt2KR9rNhf/exec";
+
+// ===============================
+// CART DATA
+// ===============================
 let cart = [];
 let total = 0;
 
-// ✅ YOUR APPS SCRIPT WEB APP URL (already added)
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_Bl8XMYWxQa4aQlgROmmcemmmqL5nm9WrujwKhlIWjpZEAMvKYKS6KEFN52--KA3E/exec";
-
-function addToCart(name, price) {
-  cart.push({ name, price });
+// ===============================
+// ADD ITEM TO CART
+// ===============================
+function addItem(itemName, price) {
+  cart.push({ name: itemName, price: price });
   total += price;
-  document.getElementById("cartCount").innerText = cart.length;
-}
-
-document.getElementById("cartBtn").onclick = () => {
-  document.getElementById("cartModal").style.display = "block";
   renderCart();
-};
-
-function closeCart() {
-  document.getElementById("cartModal").style.display = "none";
 }
 
+// ===============================
+// SHOW CART
+// ===============================
 function renderCart() {
-  const list = document.getElementById("cartItems");
-  list.innerHTML = "";
-  cart.forEach(item => {
+  const cartList = document.getElementById("cart");
+  cartList.innerHTML = "";
+
+  cart.forEach((item) => {
     const li = document.createElement("li");
-    li.innerText = item.name + " - ₹" + item.price;
-    list.appendChild(li);
+    li.innerText = `${item.name} - ₹${item.price}`;
+    cartList.appendChild(li);
   });
+
   document.getElementById("total").innerText = total;
 }
 
+// ===============================
+// PLACE ORDER
+// ===============================
 function placeOrder() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("Fill all details");
+    alert("সব ফিল্ড পূরণ করুন এবং আইটেম যোগ করুন");
     return;
   }
 
-  const data = {
+  const orderData = {
     name: name,
     phone: phone,
     address: address,
-    items: cart.map(i => i.name).join(", "),
+    items: cart.map((i) => i.name).join(", "),
     total: total
   };
 
   fetch(SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify(data)
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(orderData)
   })
-  .then(res => res.text())
-  .then(response => {
-    alert("Order placed successfully");
-    cart = [];
-    total = 0;
-    document.getElementById("cartCount").innerText = 0;
-    closeCart();
-  })
-  .catch(() => {
-    alert("Order failed");
-  });
+    .then((res) => res.json())
+    .then((response) => {
+      if (response.status === "success") {
+        alert("✅ Order Successful");
+
+        // RESET
+        cart = [];
+        total = 0;
+        document.getElementById("cart").innerHTML = "";
+        document.getElementById("total").innerText = "0";
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("address").value = "";
+      } else {
+        alert("❌ Order Failed");
+        console.error(response);
+      }
+    })
+    .catch((err) => {
+      alert("❌ Network Error");
+      console.error(err);
+    });
 }
