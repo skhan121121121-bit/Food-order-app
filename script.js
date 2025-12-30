@@ -1,35 +1,57 @@
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxmKHOmrfVXRjzJdI6VaIIzvxYqdu3Jx8cCXBcxsgM3nnxIUwAU0tq7IoZR1r5ba7wo/exec";
-
+// ====== GLOBAL VARIABLES ======
 let cart = [];
 let total = 0;
 
+// 🔴 এখানে আপনার Google Apps Script Web App URL বসান
+const API_URL = "https://script.google.com/macros/s/AKfycby2Q6TkoX1ZOcYmqWutwskxmXUF-7me57rMqGHbLB_RdF55VAhz0Nvpxhu6SBvVL5kZ/exec";
+
+// ====== ADD ITEM TO CART ======
 function addItem(name, price) {
-  cart.push({ name, price });
+  cart.push({
+    name: name,
+    price: price
+  });
+
   total += price;
+
   renderCart();
 }
 
+// ====== SHOW CART ======
 function renderCart() {
   const cartList = document.getElementById("cart");
   cartList.innerHTML = "";
 
-  cart.forEach(item => {
+  cart.forEach((item, index) => {
     const li = document.createElement("li");
-    li.textContent = item.name + " - ₹" + item.price;
+    li.innerHTML = `
+      ${item.name} - ₹${item.price}
+      <span style="color:red;cursor:pointer;float:right"
+        onclick="removeItem(${index})">✖</span>
+    `;
     cartList.appendChild(li);
   });
 
   document.getElementById("total").innerText = total;
 }
 
+// ====== REMOVE ITEM ======
+function removeItem(index) {
+  total -= cart[index].price;
+  cart.splice(index, 1);
+  renderCart();
+}
+
+// ====== PLACE ORDER ======
 function placeOrder() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
+  const status = document.getElementById("status");
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("সব ফিল্ড পূরণ করুন এবং আইটেম যোগ করুন");
+    status.innerText = "❌ সব তথ্য পূরণ করুন";
+    status.style.color = "red";
     return;
   }
 
@@ -41,26 +63,37 @@ function placeOrder() {
     total: total
   };
 
-  fetch(SCRIPT_URL, {
+  status.innerText = "⏳ Order sending...";
+  status.style.color = "black";
+
+  fetch(API_URL, {
     method: "POST",
-    mode: "no-cors",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(orderData)
   })
-  .then(() => {
-    alert("✅ Order Successful");
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === "success") {
+        status.innerText = "✅ Order Placed Successfully";
+        status.style.color = "green";
 
-    cart = [];
-    total = 0;
-    document.getElementById("cart").innerHTML = "";
-    document.getElementById("total").innerText = "0";
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("address").value = "";
-  })
-  .catch(() => {
-    alert("❌ Network Error");
-  });
+        // Reset
+        cart = [];
+        total = 0;
+        renderCart();
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("address").value = "";
+      } else {
+        status.innerText = "❌ Order Failed";
+        status.style.color = "red";
+      }
+    })
+    .catch(error => {
+      status.innerText = "⚠️ Network Error";
+      status.style.color = "red";
+      console.error(error);
+    });
 }
