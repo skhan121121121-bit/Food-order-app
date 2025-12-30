@@ -1,5 +1,5 @@
 // ===============================
-// CONFIG
+// GOOGLE APP SCRIPT WEB APP URL
 // ===============================
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycby2Q6TkoX1ZOcYmqWutwskxmXUF-7me57rMqGHbLB_RdF55VAhz0Nvpxhu6SBvVL5kZ/exec";
@@ -13,14 +13,14 @@ let total = 0;
 // ===============================
 // ADD ITEM TO CART
 // ===============================
-function addItem(itemName, price) {
-  cart.push({ name: itemName, price: price });
+function addItem(name, price) {
+  cart.push({ name, price });
   total += price;
   renderCart();
 }
 
 // ===============================
-// SHOW CART
+// SHOW CART ITEMS
 // ===============================
 function renderCart() {
   const cartList = document.getElementById("cart");
@@ -28,7 +28,7 @@ function renderCart() {
 
   cart.forEach((item) => {
     const li = document.createElement("li");
-    li.innerText = `${item.name} - ₹${item.price}`;
+    li.textContent = item.name + " - ₹" + item.price;
     cartList.appendChild(li);
   });
 
@@ -36,7 +36,7 @@ function renderCart() {
 }
 
 // ===============================
-// PLACE ORDER
+// PLACE ORDER (SEND TO GOOGLE SHEET)
 // ===============================
 function placeOrder() {
   const name = document.getElementById("name").value.trim();
@@ -44,7 +44,7 @@ function placeOrder() {
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("সব ফিল্ড পূরণ করুন এবং আইটেম যোগ করুন");
+    alert("সব ফিল্ড পূরণ করুন এবং অন্তত ১টা আইটেম যোগ করুন");
     return;
   }
 
@@ -64,8 +64,8 @@ function placeOrder() {
     body: JSON.stringify(orderData)
   })
     .then((res) => res.json())
-    .then((response) => {
-      if (response.status === "success") {
+    .then((data) => {
+      if (data.status === "success") {
         alert("✅ Order Successful");
 
         // RESET
@@ -78,11 +78,11 @@ function placeOrder() {
         document.getElementById("address").value = "";
       } else {
         alert("❌ Order Failed");
-        console.error(response);
+        console.log(data);
       }
     })
-    .catch((err) => {
+    .catch((error) => {
       alert("❌ Network Error");
-      console.error(err);
+      console.error(error);
     });
 }
