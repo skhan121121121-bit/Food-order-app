@@ -1,32 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Order</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <h2>🍽️ Food Order</h2>
+<div class="header">
+  🍔 Food Order
+</div>
 
-  <div class="food-list">
-    <button onclick="addItem('Chicken Roll', 60)">Chicken Roll ₹60</button>
-    <button onclick="addItem('Egg Roll', 40)">Egg Roll ₹40</button>
-    <button onclick="addItem('Veg Roll', 30)">Veg Roll ₹30</button>
+<div class="container">
+
+  <h3>Menu</h3>
+
+  <div class="item" onclick="addItem('Chicken Roll',60)">
+    <span>Chicken Roll</span>
+    <b>₹60</b>
+  </div>
+
+  <div class="item" onclick="addItem('Egg Roll',40)">
+    <span>Egg Roll</span>
+    <b>₹40</b>
+  </div>
+
+  <div class="item" onclick="addItem('Veg Roll',30)">
+    <span>Veg Roll</span>
+    <b>₹30</b>
   </div>
 
   <h3>🛒 Cart</h3>
   <ul id="cart"></ul>
-  <p><b>Total: ₹<span id="total">0</span></b></p>
+  <p class="total">Total: ₹<span id="total">0</span></p>
 
-  <h3>📦 Delivery Details</h3>
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="tel" id="phone" placeholder="Phone Number">
+  <h3>Customer Details</h3>
+
+  <input id="name" placeholder="Name">
+  <input id="phone" placeholder="Phone Number">
   <textarea id="address" placeholder="Delivery Address"></textarea>
 
-  <button class="order-btn" onclick="placeOrder()">Place Order</button>
+  <button onclick="placeOrder()">Place Order</button>
 
-  <script src="script.js"></script>
+  <p id="status"></p>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
