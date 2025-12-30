@@ -2,7 +2,7 @@
 // CONFIG
 // ===============================
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzHmdNzSNs6q5Cwm17Wv7MqFGcMARk5UfAai3dYzZauUK8uqpO9XRU-z9nt2KR9rNhf/exec";
+  "https://script.google.com/macros/s/AKfycby2Q6TkoX1ZOcYmqWutwskxmXUF-7me57rMqGHbLB_RdF55VAhz0Nvpxhu6SBvVL5kZ/exec";
 
 // ===============================
 // CART DATA
