@@ -1,66 +1,78 @@
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxmKHOmrfVXRjzJdI6VaIIzvxYqdu3Jx8cCXBcxsgM3nnxIUwAU0tq7IoZR1r5ba7wo/exec";
+// 🔴 আপনার Web App URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwWzRK6gtA3vyqr-XeS_hiwGjQbSaPZ8rBR2bhYsfG_dUyUTPNxJDttx85eC4A5vwM/exec";
 
 let cart = [];
 let total = 0;
+let userPhone = "";
+let userPassword = "";
 
+// LOGIN
+function login() {
+  userPhone = document.getElementById("phone").value;
+  userPassword = document.getElementById("password").value;
+
+  if (!userPhone || !userPassword) {
+    document.getElementById("loginMsg").innerText = "Fill phone & password";
+    return;
+  }
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("appBox").style.display = "block";
+}
+
+// ADD ITEM
 function addItem(name, price) {
-  cart.push({ name, price });
+  cart.push(name + " ₹" + price);
   total += price;
   renderCart();
 }
 
+// SHOW CART
 function renderCart() {
-  const cartList = document.getElementById("cart");
-  cartList.innerHTML = "";
-
+  const cartEl = document.getElementById("cart");
+  cartEl.innerHTML = "";
   cart.forEach(item => {
     const li = document.createElement("li");
-    li.textContent = item.name + " - ₹" + item.price;
-    cartList.appendChild(li);
+    li.innerText = item;
+    cartEl.appendChild(li);
   });
-
   document.getElementById("total").innerText = total;
 }
 
+// PLACE ORDER
 function placeOrder() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const address = document.getElementById("address").value.trim();
+  const address = document.getElementById("address").value;
 
-  if (!name || !phone || !address || cart.length === 0) {
-    alert("সব ফিল্ড পূরণ করুন এবং আইটেম যোগ করুন");
+  if (cart.length === 0 || !address) {
+    document.getElementById("orderMsg").innerText = "Add item & address";
     return;
   }
 
-  const orderData = {
-    name: name,
-    phone: phone,
+  const data = {
+    phone: userPhone,
+    password: userPassword,
     address: address,
-    items: cart.map(i => i.name).join(", "),
+    items: cart.join(", "),
     total: total
   };
 
-  fetch(SCRIPT_URL, {
+  fetch(WEB_APP_URL, {
     method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(orderData)
+    body: JSON.stringify(data)
   })
-  .then(() => {
-    alert("✅ Order Successful");
-
-    cart = [];
-    total = 0;
-    document.getElementById("cart").innerHTML = "";
-    document.getElementById("total").innerText = "0";
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("address").value = "";
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      document.getElementById("orderMsg").innerText = "Order Successful ✅";
+      cart = [];
+      total = 0;
+      renderCart();
+      document.getElementById("address").value = "";
+    } else {
+      document.getElementById("orderMsg").innerText = res.message;
+    }
   })
   .catch(() => {
-    alert("❌ Network Error");
+    document.getElementById("orderMsg").innerText = "Network error";
   });
 }
