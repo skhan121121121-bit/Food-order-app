@@ -2,50 +2,40 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Food Order</title>
+  <title>Food Order App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="header">
-  🍔 Food Order
+<h2>Food Order App</h2>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <h3>Login</h3>
+  <input type="text" id="phone" placeholder="Phone">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p id="loginMsg"></p>
 </div>
 
-<div class="container">
+<!-- APP -->
+<div id="appBox" style="display:none;">
 
   <h3>Menu</h3>
+  <button onclick="addItem('Chicken Roll',60)">Chicken Roll ₹60</button>
+  <button onclick="addItem('Egg Roll',40)">Egg Roll ₹40</button>
+  <button onclick="addItem('Veg Roll',30)">Veg Roll ₹30</button>
 
-  <div class="item" onclick="addItem('Chicken Roll',60)">
-    <span>Chicken Roll</span>
-    <b>₹60</b>
-  </div>
-
-  <div class="item" onclick="addItem('Egg Roll',40)">
-    <span>Egg Roll</span>
-    <b>₹40</b>
-  </div>
-
-  <div class="item" onclick="addItem('Veg Roll',30)">
-    <span>Veg Roll</span>
-    <b>₹30</b>
-  </div>
-
-  <h3>🛒 Cart</h3>
+  <h3>Cart</h3>
   <ul id="cart"></ul>
-  <p class="total">Total: ₹<span id="total">0</span></p>
+  <p>Total ₹<span id="total">0</span></p>
 
-  <h3>Customer Details</h3>
-
-  <input id="name" placeholder="Name">
-  <input id="phone" placeholder="Phone Number">
   <textarea id="address" placeholder="Delivery Address"></textarea>
-
+  <br>
   <button onclick="placeOrder()">Place Order</button>
 
-  <p id="status"></p>
-
+  <p id="orderMsg"></p>
 </div>
 
 <script src="script.js"></script>
