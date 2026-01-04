@@ -1,78 +1,54 @@
-// 🔴 আপনার Web App URL
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwWzRK6gtA3vyqr-XeS_hiwGjQbSaPZ8rBR2bhYsfG_dUyUTPNxJDttx85eC4A5vwM/exec";
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAdDVB_0qF8vlTjPEqIe7D17R3zMfLKRq4",
+  authDomain: "food-otp-app.firebaseapp.com",
+  projectId: "food-otp-app",
+  storageBucket: "food-otp-app.firebasestorage.app",
+  messagingSenderId: "661883669594",
+  appId: "1:661883669594:web:4747b3b045afd7f6ff1c63"
+};
 
-let cart = [];
-let total = 0;
-let userPhone = "";
-let userPassword = "";
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-// LOGIN
-function login() {
-  userPhone = document.getElementById("phone").value;
-  userPassword = document.getElementById("password").value;
+// Recaptcha
+window.onload = function () {
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    'recaptcha-container',
+    { size: 'normal' }
+  );
+};
 
-  if (!userPhone || !userPassword) {
-    document.getElementById("loginMsg").innerText = "Fill phone & password";
-    return;
-  }
+// Send OTP
+function sendOTP() {
+  const phoneNumber = document.getElementById("phone").value;
 
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("appBox").style.display = "block";
+  firebase.auth().signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+    .then(function (confirmationResult) {
+      window.confirmationResult = confirmationResult;
+      alert("OTP Sent");
+    })
+    .catch(function (error) {
+      alert(error.message);
+    });
 }
 
-// ADD ITEM
-function addItem(name, price) {
-  cart.push(name + " ₹" + price);
-  total += price;
-  renderCart();
-}
+// Verify OTP
+function verifyOTP() {
+  const otp = document.getElementById("otp").value;
 
-// SHOW CART
-function renderCart() {
-  const cartEl = document.getElementById("cart");
-  cartEl.innerHTML = "";
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = item;
-    cartEl.appendChild(li);
-  });
-  document.getElementById("total").innerText = total;
-}
+  window.confirmationResult.confirm(otp)
+    .then(function (result) {
+      const user = result.user;
 
-// PLACE ORDER
-function placeOrder() {
-  const address = document.getElementById("address").value;
+      // Send success to Kodular
+      if (window.AppInventor) {
+        window.AppInventor.setWebViewString("LOGIN_SUCCESS");
+      }
 
-  if (cart.length === 0 || !address) {
-    document.getElementById("orderMsg").innerText = "Add item & address";
-    return;
-  }
-
-  const data = {
-    phone: userPhone,
-    password: userPassword,
-    address: address,
-    items: cart.join(", "),
-    total: total
-  };
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(res => res.json())
-  .then(res => {
-    if (res.status === "success") {
-      document.getElementById("orderMsg").innerText = "Order Successful ✅";
-      cart = [];
-      total = 0;
-      renderCart();
-      document.getElementById("address").value = "";
-    } else {
-      document.getElementById("orderMsg").innerText = res.message;
-    }
-  })
-  .catch(() => {
-    document.getElementById("orderMsg").innerText = "Network error";
-  });
+      alert("Login Success");
+    })
+    .catch(function (error) {
+      alert("Invalid OTP");
+    });
 }
