@@ -10,22 +10,26 @@
 
   <h2>🍽️ Food Order</h2>
 
+  <!-- FOOD ITEMS -->
   <div class="food-list">
     <button onclick="addItem('Chicken Roll', 60)">Chicken Roll ₹60</button>
     <button onclick="addItem('Egg Roll', 40)">Egg Roll ₹40</button>
     <button onclick="addItem('Veg Roll', 30)">Veg Roll ₹30</button>
   </div>
 
+  <!-- CART -->
   <h3>🛒 Cart</h3>
   <ul id="cart"></ul>
   <p><b>Total: ₹<span id="total">0</span></b></p>
 
+  <!-- DELIVERY FORM -->
   <h3>📦 Delivery Details</h3>
   <input type="text" id="name" placeholder="Your Name">
   <input type="tel" id="phone" placeholder="Phone Number">
   <textarea id="address" placeholder="Delivery Address"></textarea>
 
   <button class="order-btn" onclick="placeOrder()">Place Order</button>
+  <button class="pay-btn" onclick="payNow()">Pay with UPI</button>
 
   <script src="script.js"></script>
 </body>
