@@ -2,60 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food App</title>
+  <title>Food Delivery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div>
-    <h3>Home</h3>
-    <p class="location">Siliguri Junction Station</p>
+<header>
+  <h1>Foodie</h1>
+  <p>Fast delivery at your door</p>
+</header>
+
+<div class="menu">
+
+  <div class="card">
+    <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg" />
+    <h3>Pizza</h3>
+    <p>₹199</p>
+    <button onclick="addItem('Pizza',199)">Add</button>
   </div>
-  <div class="profile">S</div>
-</div>
 
-<!-- SEARCH -->
-<div class="search-box">
-  <input type="text" placeholder="Search food or restaurant">
-</div>
-
-<!-- BANNER -->
-<div class="banner">
-  <div class="banner-text">
-    <h2>Meals under ₹200</h2>
-    <p>Best coupons + Free delivery</p>
-    <button>Order now</button>
+  <div class="card">
+    <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg" />
+    <h3>Veg Curry</h3>
+    <p>₹120</p>
+    <button onclick="addItem('Veg Curry',120)">Add</button>
   </div>
-</div>
 
-<!-- CATEGORIES -->
-<div class="categories">
-  <div class="cat">🍚<br>Fried Rice</div>
-  <div class="cat">🍛<br>North Indian</div>
-  <div class="cat">🌯<br>Rolls</div>
-  <div class="cat">🥟<br>Momos</div>
-  <div class="cat">🍰<br>Cake</div>
-</div>
-
-<!-- FILTERS -->
-<div class="filters">
-  <button>Filters</button>
-  <button class="active">Near & Fast</button>
-  <button>Under ₹200</button>
-</div>
-
-<!-- FOOD CARD -->
-<div class="card">
-  <img src="https://i.imgur.com/Uw6d8nD.jpg">
-  <div class="card-info">
-    <h4>Paneer Butter Masala</h4>
-    <p>₹220 • Free Delivery</p>
-    <span class="rating">4.3 ★</span>
+  <div class="card">
+    <img src="https://images.pexels.com/photos/1117862/pexels-photo-1117862.jpeg" />
+    <h3>Chicken Curry</h3>
+    <p>₹180</p>
+    <button onclick="addItem('Chicken Curry',180)">Add</button>
   </div>
+
+  <div class="card">
+    <img src="https://all-free-download.com/images/graphiclarge/food_picture_03_hd_pictures_167556.jpg" />
+    <h3>Chicken Fry</h3>
+    <p>₹150</p>
+    <button onclick="addItem('Chicken Fry',150)">Add</button>
+  </div>
+
+  <div class="card">
+    <img src="https://i.pinimg.com/originals/39/62/25/3962256a2df40d2a6df0a77dfb9a1c64.jpg" />
+    <h3>Burger</h3>
+    <p>₹99</p>
+    <button onclick="addItem('Burger',99)">Add</button>
+  </div>
+
 </div>
 
+<!-- CART -->
+<div class="cart">
+  <h4>Cart (<span id="count">0</span>)</h4>
+  <ul id="cartItems"></ul>
+  <p>Total ₹<span id="total">0</span></p>
+  <button onclick="checkout()">Checkout</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
