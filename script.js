@@ -35,34 +35,63 @@ function closeForm() {
   document.getElementById("overlay").style.display = "none";
 }
 
-function submitOrder() {
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
+async function submitOrder() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address) {
-    alert("Fill all details");
+    alert("Please fill all details");
     return;
   }
 
   const items = cart.map(i => i.name).join(", ");
 
-  // ✅ Google Sheet
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      name,
-      phone,
-      address,
-      items,
-      total
-    })
-  });
+  const orderData = {
+    name: name,
+    phone: phone,
+    address: address,
+    items: items,
+    total: total
+  };
 
-  // ✅ WhatsApp
-  const msg =
-    `New Order\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nItems: ${items}\nTotal: ₹${total}`;
+  try {
+    // ✅ FIRST: Google Sheet এ পাঠানো
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    });
 
-  window.location.href =
-    "https://wa.me/918392010029?text=" + encodeURIComponent(msg);
+    const text = await res.text();
+
+    if (!res.ok) {
+      alert("Order failed");
+      return;
+    }
+
+    // ✅ SUCCESS MESSAGE
+    alert("Order successfully placed ✅");
+
+    // ✅ THEN: WhatsApp open
+    const msg =
+      `New Order\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems: ${items}\nTotal: ₹${total}`;
+
+    const whatsappUrl =
+      "https://wa.me/918392010029?text=" + encodeURIComponent(msg);
+
+    window.open(whatsappUrl, "_blank");
+
+    // ✅ RESET
+    cart = [];
+    total = 0;
+    updateCart();
+    closeForm();
+
+  } catch (err) {
+    alert("Network error ❌");
+    console.error(err);
+  }
 }
