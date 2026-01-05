@@ -1,33 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>OTP Login</title>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <script src="script.js"></script>
-
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    input, button { width: 100%; padding: 10px; margin: 5px 0; }
-  </style>
+  <title>Food Order App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <h2>Mobile OTP Login</h2>
+  <h2>🍽️ Food Order</h2>
 
-  <input type="text" id="phone" placeholder="+91XXXXXXXXXX">
-  <div id="recaptcha-container"></div>
-  <button onclick="sendOTP()">Send OTP</button>
+  <div class="food-list">
+    <button onclick="addItem('Chicken Roll', 60)">Chicken Roll ₹60</button>
+    <button onclick="addItem('Egg Roll', 40)">Egg Roll ₹40</button>
+    <button onclick="addItem('Veg Roll', 30)">Veg Roll ₹30</button>
+  </div>
 
-  <br><br>
+  <h3>🛒 Cart</h3>
+  <ul id="cart"></ul>
+  <p><b>Total: ₹<span id="total">0</span></b></p>
 
-  <input type="text" id="otp" placeholder="Enter OTP">
-  <button onclick="verifyOTP()">Verify OTP</button>
+  <h3>📦 Delivery Details</h3>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="tel" id="phone" placeholder="Phone Number">
+  <textarea id="address" placeholder="Delivery Address"></textarea>
 
+  <button class="order-btn" onclick="placeOrder()">Place Order</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
