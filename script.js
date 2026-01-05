@@ -41,45 +41,30 @@ function submitOrder() {
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address) {
-    alert("Please fill all details");
+    alert("Fill all details");
     return;
   }
 
   const items = cart.map(i => i.name).join(", ");
 
-  const orderData = {
-    name,
-    phone,
-    address,
-    items,
-    total
-  };
-
-  // 🔴 SEND TO GOOGLE SHEET (NO RESPONSE READ)
+  // ✅ SEND TO GOOGLE SHEET (no-cors = no error)
   fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(orderData)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name,
+      phone,
+      address,
+      items,
+      total
+    })
   });
 
-  // ✅ SUCCESS MESSAGE
-  alert("Order placed successfully ✅");
-
-  // ✅ WHATSAPP OPEN (GUARANTEED)
+  // ✅ OPEN WHATSAPP
   const msg =
-    `New Order\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems: ${items}\nTotal: ₹${total}`;
+    `New Order\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nItems: ${items}\nTotal: ₹${total}`;
 
-  const whatsappUrl =
+  window.location.href =
     "https://wa.me/918392010029?text=" + encodeURIComponent(msg);
-
-  window.location.href = whatsappUrl;
-
-  // ✅ RESET
-  cart = [];
-  total = 0;
-  updateCart();
-  closeForm();
 }
