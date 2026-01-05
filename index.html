@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Delivery</title>
+  <title>Food Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -16,38 +16,24 @@
 <div class="menu">
 
   <div class="card">
-    <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg" />
+    <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg">
     <h3>Pizza</h3>
     <p>₹199</p>
     <button onclick="addItem('Pizza',199)">Add</button>
   </div>
 
   <div class="card">
-    <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg" />
+    <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg">
     <h3>Veg Curry</h3>
     <p>₹120</p>
     <button onclick="addItem('Veg Curry',120)">Add</button>
   </div>
 
   <div class="card">
-    <img src="https://images.pexels.com/photos/1117862/pexels-photo-1117862.jpeg" />
+    <img src="https://images.pexels.com/photos/1117862/pexels-photo-1117862.jpeg">
     <h3>Chicken Curry</h3>
     <p>₹180</p>
     <button onclick="addItem('Chicken Curry',180)">Add</button>
-  </div>
-
-  <div class="card">
-    <img src="https://all-free-download.com/images/graphiclarge/food_picture_03_hd_pictures_167556.jpg" />
-    <h3>Chicken Fry</h3>
-    <p>₹150</p>
-    <button onclick="addItem('Chicken Fry',150)">Add</button>
-  </div>
-
-  <div class="card">
-    <img src="https://i.pinimg.com/originals/39/62/25/3962256a2df40d2a6df0a77dfb9a1c64.jpg" />
-    <h3>Burger</h3>
-    <p>₹99</p>
-    <button onclick="addItem('Burger',99)">Add</button>
   </div>
 
 </div>
@@ -57,7 +43,19 @@
   <h4>Cart (<span id="count">0</span>)</h4>
   <ul id="cartItems"></ul>
   <p>Total ₹<span id="total">0</span></p>
-  <button onclick="checkout()">Checkout</button>
+  <button class="checkoutBtn" onclick="openForm()">Checkout</button>
+</div>
+
+<!-- ORDER FORM -->
+<div class="overlay" id="overlay">
+  <div class="formBox">
+    <h3>Enter Details</h3>
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <textarea id="address" placeholder="Address"></textarea>
+    <button onclick="submitOrder()">Send Order</button>
+    <button class="closeBtn" onclick="closeForm()">Cancel</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
