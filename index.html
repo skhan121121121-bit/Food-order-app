@@ -2,35 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h2>🍽️ Food Order</h2>
-
-  <!-- FOOD ITEMS -->
-  <div class="food-list">
-    <button onclick="addItem('Chicken Roll', 60)">Chicken Roll ₹60</button>
-    <button onclick="addItem('Egg Roll', 40)">Egg Roll ₹40</button>
-    <button onclick="addItem('Veg Roll', 30)">Veg Roll ₹30</button>
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <h3>Home</h3>
+    <p class="location">Siliguri Junction Station</p>
   </div>
+  <div class="profile">S</div>
+</div>
 
-  <!-- CART -->
-  <h3>🛒 Cart</h3>
-  <ul id="cart"></ul>
-  <p><b>Total: ₹<span id="total">0</span></b></p>
+<!-- SEARCH -->
+<div class="search-box">
+  <input type="text" placeholder="Search food or restaurant">
+</div>
 
-  <!-- DELIVERY FORM -->
-  <h3>📦 Delivery Details</h3>
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="tel" id="phone" placeholder="Phone Number">
-  <textarea id="address" placeholder="Delivery Address"></textarea>
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-text">
+    <h2>Meals under ₹200</h2>
+    <p>Best coupons + Free delivery</p>
+    <button>Order now</button>
+  </div>
+</div>
 
-  <button class="order-btn" onclick="placeOrder()">Place Order</button>
-  <button class="pay-btn" onclick="payNow()">Pay with UPI</button>
+<!-- CATEGORIES -->
+<div class="categories">
+  <div class="cat">🍚<br>Fried Rice</div>
+  <div class="cat">🍛<br>North Indian</div>
+  <div class="cat">🌯<br>Rolls</div>
+  <div class="cat">🥟<br>Momos</div>
+  <div class="cat">🍰<br>Cake</div>
+</div>
 
-  <script src="script.js"></script>
+<!-- FILTERS -->
+<div class="filters">
+  <button>Filters</button>
+  <button class="active">Near & Fast</button>
+  <button>Under ₹200</button>
+</div>
+
+<!-- FOOD CARD -->
+<div class="card">
+  <img src="https://i.imgur.com/Uw6d8nD.jpg">
+  <div class="card-info">
+    <h4>Paneer Butter Masala</h4>
+    <p>₹220 • Free Delivery</p>
+    <span class="rating">4.3 ★</span>
+  </div>
+</div>
+
 </body>
 </html>
