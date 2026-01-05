@@ -35,7 +35,7 @@ function closeForm() {
   document.getElementById("overlay").style.display = "none";
 }
 
-async function submitOrder() {
+function submitOrder() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
@@ -48,50 +48,38 @@ async function submitOrder() {
   const items = cart.map(i => i.name).join(", ");
 
   const orderData = {
-    name: name,
-    phone: phone,
-    address: address,
-    items: items,
-    total: total
+    name,
+    phone,
+    address,
+    items,
+    total
   };
 
-  try {
-    // ✅ FIRST: Google Sheet এ পাঠানো
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(orderData)
-    });
+  // 🔴 SEND TO GOOGLE SHEET (NO RESPONSE READ)
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(orderData)
+  });
 
-    const text = await res.text();
+  // ✅ SUCCESS MESSAGE
+  alert("Order placed successfully ✅");
 
-    if (!res.ok) {
-      alert("Order failed");
-      return;
-    }
+  // ✅ WHATSAPP OPEN (GUARANTEED)
+  const msg =
+    `New Order\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems: ${items}\nTotal: ₹${total}`;
 
-    // ✅ SUCCESS MESSAGE
-    alert("Order successfully placed ✅");
+  const whatsappUrl =
+    "https://wa.me/918392010029?text=" + encodeURIComponent(msg);
 
-    // ✅ THEN: WhatsApp open
-    const msg =
-      `New Order\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems: ${items}\nTotal: ₹${total}`;
+  window.location.href = whatsappUrl;
 
-    const whatsappUrl =
-      "https://wa.me/918392010029?text=" + encodeURIComponent(msg);
-
-    window.open(whatsappUrl, "_blank");
-
-    // ✅ RESET
-    cart = [];
-    total = 0;
-    updateCart();
-    closeForm();
-
-  } catch (err) {
-    alert("Network error ❌");
-    console.error(err);
-  }
-      }
+  // ✅ RESET
+  cart = [];
+  total = 0;
+  updateCart();
+  closeForm();
+}
