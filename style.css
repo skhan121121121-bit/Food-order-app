@@ -21,8 +21,8 @@ header {
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .card img {
@@ -35,9 +35,9 @@ header {
   background: #e23744;
   color: white;
   border: none;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 8px 12px;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .cart {
@@ -46,13 +46,49 @@ header {
   right: 10px;
   background: white;
   padding: 10px;
-  width: 200px;
+  width: 180px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.cart ul {
-  padding-left: 15px;
-  max-height: 100px;
-  overflow-y: auto;
+.checkoutBtn {
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.formBox {
+  background: white;
+  margin: 100px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.formBox input,
+.formBox textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px;
+}
+
+.formBox button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.closeBtn {
+  background: #ccc;
 }
